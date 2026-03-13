@@ -1,0 +1,54 @@
+[package]
+name = "ibuprofen_loader"
+version = "3.0.0-snapshot-1"
+description = "Ibuprofen Loader - Modern Minecraft Mod Loader for Netease Edition"
+authors = ["SLFFTZ520"]
+edition = "2021"
+
+[lib]
+name = "ibuprofen_loader_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+tauri-plugin-opener = "2"
+tauri-plugin-dialog = "2"
+tauri-plugin-fs = "2"
+tauri-plugin-shell = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+# Windows Registry
+winreg = "0.55"
+
+# Async runtime
+tokio = { version = "1", features = ["full"] }
+
+# Logging
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+# File handling
+zip = "2"
+walkdir = "2"
+
+# HTTP client
+reqwest = { version = "0.12", features = ["json", "stream"] }
+
+# Date/time
+chrono = "0.4"
+
+# Error handling
+thiserror = "2"
+anyhow = "1"
+
+[target.'cfg(windows)'.dependencies]
+windows = { version = "0.58", features = [
+    "Win32_Foundation",
+    "Win32_System_Registry",
+    "Win32_NetworkManagement_IpHelper",
+    "Win32_Networking_WinSock"
+] }
