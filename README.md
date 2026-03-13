@@ -96,7 +96,7 @@ Ibuprofen Loader/
 
 ### 📄 许可证
 
-[MIT License](LICENSE)
+[MIT License](Ibuprofen Loader/LICENSE)
 
 
 ### 🤝 鸣谢
