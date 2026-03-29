@@ -2,5 +2,5 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 fn main() {
-    neteasemodinjector3_lib::run()
+    ibuprofen_loader_lib::run();
 }

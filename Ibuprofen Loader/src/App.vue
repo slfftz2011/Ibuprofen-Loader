@@ -1,15 +1,31 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
 import { useAppStore } from "./stores/app";
+import * as api from "./api/commands";
 import HomeView from "./views/HomeView.vue";
 import ComponentsView from "./views/ComponentsView.vue";
 import InjectView from "./views/InjectView.vue";
 import SettingsView from "./views/SettingsView.vue";
+import ToastContainer from "./components/ToastContainer.vue";
 
 const store = useAppStore();
 
 onMounted(() => {
   store.initialize();
+  // 1s后开始3种检查
+  setTimeout(async () => {
+    try {
+      const pathResult = await api.getNeteaseDownloadPath();
+      if (pathResult.path) store.gamePath = pathResult.path;
+    } catch (e) {}
+    
+    try {
+      store.components = await api.scanCopFiles();
+      await api.checkOrCreateComponentsDir();
+    } catch (e) {}
+    
+    store.checkNetworkBackground();
+  }, 1000);
 });
 </script>
 
@@ -19,7 +35,7 @@ onMounted(() => {
       <h1>网易MC组件注入器</h1>
       <div class="status-bar">
         <span :class="['status-item', store.networkStatus?.status]">
-          网络: {{ store.networkStatus?.status === 'connected' ? '已连接' : store.networkStatus?.status === 'limited_access' ? '受限' : '未连接' }}
+          网络: {{ store.networkStatus?.status === 'checking' ? '检测中...' : store.networkStatus?.status === 'connected' ? '已连接' : store.networkStatus?.status === 'limited_access' ? '受限' : '未连接' }}
         </span>
         <span class="status-item" v-if="store.gamePath">
           游戏路径: {{ store.gamePath }}
@@ -60,7 +76,7 @@ onMounted(() => {
         <p>加载中...</p>
       </div>
 
-      <div v-else-if="store.error" class="error-message">
+      <div v-else-if="store.error && store.currentView !== 'settings'" class="error-message">
         <p>{{ store.error }}</p>
         <button @click="store.clearError">关闭</button>
       </div>
@@ -69,10 +85,10 @@ onMounted(() => {
       <ComponentsView v-else-if="store.currentView === 'components'" />
       <InjectView v-else-if="store.currentView === 'inject'" />
       <SettingsView v-else-if="store.currentView === 'settings'" />
-    </main>
-
+      </main>
+      <ToastContainer />
     <footer class="app-footer">
-      <p>NeteaseModInjector v3.0.0 - Powered by Rust + Vue</p>
+<p>Ibuprofen Loader v3.0.0 - Powered by Rust + Vue</p>
     </footer>
   </div>
 </template>

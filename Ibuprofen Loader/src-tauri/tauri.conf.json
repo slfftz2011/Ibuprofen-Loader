@@ -1,8 +1,8 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "NeteaseModInjector",
-  "version": "3.0.0",
-  "identifier": "com.netease.modinjector",
+  "productName": "Inbuprofen Loader",
+  "version": "3.0.0-snapshot-2",
+  "identifier": "com.slfftz2011.inbuprofen.loader",
   "build": {
     "beforeDevCommand": "npm run dev",
     "devUrl": "http://localhost:1420",

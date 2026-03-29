@@ -1,10 +1,40 @@
 <script setup lang="ts">
 import { useAppStore } from "../stores/app";
+import { useToast } from "../composables/useToast";
+import * as api from "../api/commands";
 
 const store = useAppStore();
+const { showInfoToast } = useToast();
 
 const githubUrl = "https://github.com/slfftz2011";
 const wattToolkitUrl = "https://steampp.net/";
+
+async function handleTestGithub(retry = 0) {
+  const { showSuccessToast, showErrorToast, showWarningToast } = useToast();
+  showInfoToast(`测试GitHub连通性... (第${retry + 1}次)`);
+  await store.testGithubConnectivity();
+  if (store.githubStatus?.reachable === true) {
+    showSuccessToast('✓ GitHub连通正常');
+  } else if (retry < 2) {
+    showWarningToast(`测试失败，重试中... (${retry + 1}/3)`);
+    setTimeout(() => handleTestGithub(retry + 1), 1000);
+  } else {
+    showErrorToast(store.githubStatus?.error || '✗ GitHub连通异常 (3次重试失败)');
+  }
+}
+
+async function handleTestNetwork() {
+  const { showInfoToast, showSuccessToast, showErrorToast } = useToast();
+  const isTesting = true;
+  showInfoToast('刷新网络状态...');
+  try {
+    store.networkStatus = await api.checkConnectionStatus();
+    showSuccessToast('网络状态已刷新');
+  } catch (e) {
+    showErrorToast('刷新失败');
+  }
+}
+
 </script>
 
 <template>
@@ -33,6 +63,9 @@ const wattToolkitUrl = "https://steampp.net/";
       <div class="setting-item">
         <label>网络状态</label>
         <div class="setting-value">
+        <button class="btn small ml-2" @click="(e) => { e.stopPropagation(); handleTestNetwork(); }">
+            刷新
+          </button>
           <span :class="['status-badge', store.networkStatus?.status]">
             {{ store.networkStatus?.status === 'connected' ? '已连接' : 
                store.networkStatus?.status === 'limited_access' ? '受限' : '未连接' }}
@@ -42,20 +75,28 @@ const wattToolkitUrl = "https://steampp.net/";
       <div class="setting-item">
         <label>测试连接</label>
         <div class="setting-actions">
-          <button class="btn small" @click="store.openExternalUrl(githubUrl)">
+
+        <button class="btn small" @click="(e) => { e.stopPropagation(); handleTestGithub(); }">
             测试 GitHub
           </button>
+          <span class="status-badge ml-2" :class="store.githubStatus?.reachable === true ? 'connected' : 'disconnected'">
+            {{ store.githubStatus?.reachable === true ? '✓正常' : store.githubStatus?.error || '未测试' }}
+          </span>
+
         </div>
       </div>
     </div>
 
+
     <div class="settings-section">
       <h3>快捷链接</h3>
       <div class="links-grid">
+
         <button class="link-card" @click="store.openExternalUrl(githubUrl)">
           <span class="link-icon">🔗</span>
           <span class="link-text">GitHub</span>
         </button>
+
         <button class="link-card" @click="store.openExternalUrl(wattToolkitUrl)">
           <span class="link-icon">⚡</span>
           <span class="link-text">Watt Toolkit</span>

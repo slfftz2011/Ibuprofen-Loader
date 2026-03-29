@@ -8,7 +8,7 @@ const store = useAppStore();
   <div class="home-view">
     <div class="welcome-card">
       <h2>欢迎使用Ibuprofen Loader</h2>
-      <p class="version">版本 3.0.0</p>
+      <p class="version">版本 3.0.0-snapshot-2</p>
     </div>
 
     <div class="status-cards">

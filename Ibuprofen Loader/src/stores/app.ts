@@ -2,23 +2,27 @@
 import { defineStore } from "pinia";
 import { ref, computed } from "vue";
 import type {
-
   ConnectionStatus,
   CopFileInfo,
   ListJsonInfo,
+  WebsiteCheckResult,
 } from "../types";
 import * as api from "../api/commands";
 
 export const useAppStore = defineStore("app", () => {
   // State
   const gamePath = ref<string | null>(null);
-  const networkStatus = ref<ConnectionStatus | null>(null);
+  const networkStatus = ref<ConnectionStatus>({status: 'checking', message: '检测中...'});
+  const githubStatus = ref<WebsiteCheckResult>({reachable: false, error: '检测中...'});
   const components = ref<CopFileInfo[]>([]);
   const selectedComponent = ref<CopFileInfo | null>(null);
   const extractedComponent = ref<string | null>(null);
   const componentInfo = ref<ListJsonInfo | null>(null);
   const isLoading = ref(false);
   const error = ref<string | null>(null);
+// toast handled by composable
+
+
   const currentView = ref<"home" | "components" | "inject" | "settings">("home");
   const isInjecting = ref(false);
   const injectionProgress = ref(0);
@@ -30,34 +34,43 @@ export const useAppStore = defineStore("app", () => {
     () => networkStatus.value?.status === "connected"
   );
   const hasComponents = computed(() => components.value.length > 0);
+  const githubConnected = computed(() => githubStatus.value?.reachable ?? false);
 
   // Actions
-  async function initialize() {
-    isLoading.value = true;
-    error.value = null;
+async function initialize() {
+    // Instant startup - no blocking operations
+    currentView.value = 'home';
+  }
 
+  // Background network check
+  async function checkNetworkBackground() {
     try {
-      // Get game path
-      const pathResult = await api.getNeteaseDownloadPath();
-      if (pathResult.path) {
-        gamePath.value = pathResult.path;
-      }
-
-      // Check network status
       networkStatus.value = await api.checkConnectionStatus();
-
-      // Scan components
-      await scanComponents();
-
-      // Ensure components directory exists
-      await api.checkOrCreateComponentsDir();
+      githubStatus.value = await api.checkWebsiteReachable("https://github.com");
     } catch (e) {
-      error.value = e instanceof Error ? e.message : "初始化失败";
-    } finally {
-      isLoading.value = false;
+      console.warn('Background network check failed:', e);
     }
   }
 
+  async function testGithubConnectivity() {
+    try {
+      const result = await api.checkWebsiteReachable("https://github.com");
+
+      githubStatus.value = result;
+    } catch (e) {
+      githubStatus.value = { reachable: false, error: "测试失败" };
+    }
+  }
+
+
+  async function openExternalUrl(url: string) {
+    try {
+      await api.openUrl(url);
+    } catch (e) {
+      error.value = e instanceof Error ? e.message : "无法打开链接";
+    }
+  }
+  
   async function scanComponents() {
     try {
       components.value = await api.scanCopFiles();
@@ -72,12 +85,9 @@ export const useAppStore = defineStore("app", () => {
     error.value = null;
 
     try {
-      // Process COP file
       const result = await api.processCopFile(component.path);
       if (result.success && result.output_path) {
         extractedComponent.value = result.output_path;
-
-        // Load component info
         componentInfo.value = await api.loadListJson(result.output_path);
       } else {
         error.value = result.error || "处理组件失败";
@@ -101,14 +111,12 @@ export const useAppStore = defineStore("app", () => {
     error.value = null;
 
     try {
-      // Backup first
       injectionProgress.value = 20;
       await api.backupDirectories(gamePath.value);
 
       injectionMessage.value = "等待游戏启动...";
       injectionProgress.value = 40;
 
-      // Wait for game launch
       const launched = await api.waitForGameLaunch(60);
       if (!launched) {
         throw new Error("等待游戏启动超时");
@@ -117,7 +125,6 @@ export const useAppStore = defineStore("app", () => {
       injectionMessage.value = "正在注入组件...";
       injectionProgress.value = 60;
 
-      // Copy files
       await api.copyFilesToGame(
         `${extractedComponent.value}/mods`,
         `${extractedComponent.value}/config`,
@@ -134,13 +141,8 @@ export const useAppStore = defineStore("app", () => {
     }
   }
 
-  async function openExternalUrl(url: string) {
-    try {
-      await api.openUrl(url);
-    } catch (e) {
-      error.value = e instanceof Error ? e.message : "无法打开链接";
-    }
-  }
+// toast handled by composable
+
 
   function setView(view: "home" | "components" | "inject" | "settings") {
     currentView.value = view;
@@ -156,34 +158,37 @@ export const useAppStore = defineStore("app", () => {
     componentInfo.value = null;
   }
 
-  return {
-    // State
+return {
     gamePath,
     networkStatus,
+    githubStatus,
     components,
     selectedComponent,
     extractedComponent,
     componentInfo,
     isLoading,
     error,
+    // toast handled externally
+
     currentView,
     isInjecting,
     injectionProgress,
     injectionMessage,
-
-    // Computed
     hasGamePath,
     isNetworkConnected,
     hasComponents,
-
-    // Actions
+    githubConnected,
     initialize,
+    checkNetworkBackground,
+    testGithubConnectivity,
     scanComponents,
     selectComponent,
     startInjection,
-    openExternalUrl,
     setView,
     clearError,
     clearSelection,
+    openExternalUrl,
   };
+
 });
+

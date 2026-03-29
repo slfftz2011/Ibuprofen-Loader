@@ -1,8 +1,24 @@
 # Ibuprofen Loader v3.0.0-snapshot-1
 
-[![Rust](https://img.shields.io/badge/Rust-3.0.0-snapshot--1-orange.svg)](https://www.rust-lang.org/)
+[![Rust](https://img.shields.io/badge/Rust-1.94.0-orange.svg)](https://www.rust-lang.org/)
 [![Vue](https://img.shields.io/badge/Vue-3-green.svg)](https://vuejs.org/)
 [![Tauri](https://img.shields.io/badge/Tauri-v2-blue.svg)](https://tauri.app/)
+
+
+[![Github last commit](https://img.shields.io/github/last-commit/slfftz2011/Ibuprofen-Loader)](https://github.com/slfftz2011/Ibuprofen-Loader/commits/)
+[![Github commit activity](https://img.shields.io/github/commit-activity/w/slfftz2011/Ibuprofen-Loader)](https://github.com/slfftz2011/Ibuprofen-Loader/activity/)
+[![Github contributors](https://img.shields.io/github/contributors/slfftz2011/Ibuprofen-Loader)](https://github.com/slfftz2011/Ibuprofen-Loader/contributors/)
+
+
+![Github code size](https://img.shields.io/github/languages/code-size/slfftz2011/Ibuprofen-Loader)
+![GitHub repo size](https://img.shields.io/github/repo-size/slfftz2011/Ibuprofen-Loader)
+![Github lines of code](https://5ezz6jithh.execute-api.us-east-1.amazonaws.com/prod/lambda-shield-redirect?user=slfftz2011&repo=Ibuprofen-Loader)
+
+
+<!--[![GitHub Downloads](https://img.shields.io/github/downloads/slfftz2011/Ibuprofen-Loader/total)](https://github.com/slfftz2011/Ibuprofen-Loader/releases/)-->
+<!--[![GitHub Release](https://img.shields.io/github/v/release/slfftz2011/Ibuprofen-Loader)](https://github.com/slfftz2011/Ibuprofen-Loader/releases/)-->
+![GitHub Repo stars](https://img.shields.io/github/stars/slfftz2011/Ibuprofen-Loader)
+
 
 ## 现代化网易我的世界组件注入器
 

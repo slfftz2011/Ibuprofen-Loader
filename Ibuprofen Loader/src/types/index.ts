@@ -8,7 +8,7 @@ export interface GamePathResult {
 
 // Network types
 export interface ConnectionStatus {
-  status: 'connected' | 'disconnected' | 'limited_access';
+  status: 'checking' | 'connected' | 'disconnected' | 'limited_access';
   message: string;
 }
 
