@@ -1,5 +1,5 @@
 // Toast notification composable
-import { ref, type Ref } from 'vue';
+import { ref } from 'vue';
 
 export interface ToastMessage {
   id: number;

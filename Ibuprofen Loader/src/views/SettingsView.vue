@@ -25,7 +25,6 @@ async function handleTestGithub(retry = 0) {
 
 async function handleTestNetwork() {
   const { showInfoToast, showSuccessToast, showErrorToast } = useToast();
-  const isTesting = true;
   showInfoToast('刷新网络状态...');
   try {
     store.networkStatus = await api.checkConnectionStatus();

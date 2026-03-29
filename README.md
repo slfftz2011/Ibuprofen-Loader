@@ -1,24 +1,24 @@
-# Ibuprofen Loader v3.0.0-snapshot-1
+ Ibuprofen Loader v3.0.0-snapshot-1
+ 
+<div align="center">
 
 [![Rust](https://img.shields.io/badge/Rust-1.94.0-orange.svg)](https://www.rust-lang.org/)
 [![Vue](https://img.shields.io/badge/Vue-3-green.svg)](https://vuejs.org/)
 [![Tauri](https://img.shields.io/badge/Tauri-v2-blue.svg)](https://tauri.app/)
 
-
 [![Github last commit](https://img.shields.io/github/last-commit/slfftz2011/Ibuprofen-Loader)](https://github.com/slfftz2011/Ibuprofen-Loader/commits/)
 [![Github commit activity](https://img.shields.io/github/commit-activity/w/slfftz2011/Ibuprofen-Loader)](https://github.com/slfftz2011/Ibuprofen-Loader/activity/)
 [![Github contributors](https://img.shields.io/github/contributors/slfftz2011/Ibuprofen-Loader)](https://github.com/slfftz2011/Ibuprofen-Loader/contributors/)
-
 
 ![Github code size](https://img.shields.io/github/languages/code-size/slfftz2011/Ibuprofen-Loader)
 ![GitHub repo size](https://img.shields.io/github/repo-size/slfftz2011/Ibuprofen-Loader)
 ![Github lines of code](https://5ezz6jithh.execute-api.us-east-1.amazonaws.com/prod/lambda-shield-redirect?user=slfftz2011&repo=Ibuprofen-Loader)
 
-
-<!--[![GitHub Downloads](https://img.shields.io/github/downloads/slfftz2011/Ibuprofen-Loader/total)](https://github.com/slfftz2011/Ibuprofen-Loader/releases/)-->
-<!--[![GitHub Release](https://img.shields.io/github/v/release/slfftz2011/Ibuprofen-Loader)](https://github.com/slfftz2011/Ibuprofen-Loader/releases/)-->
+[![GitHub Downloads](https://img.shields.io/github/downloads/slfftz2011/Ibuprofen-Loader/total)](https://github.com/slfftz2011/Ibuprofen-Loader/releases/)
+[![GitHub Tag](https://img.shields.io/github/v/tag/slfftz2011/Ibuprofen-Loader)](https://github.com/slfftz2011/Ibuprofen-Loader/releases/)
 ![GitHub Repo stars](https://img.shields.io/github/stars/slfftz2011/Ibuprofen-Loader)
 
+</div>
 
 ## 现代化网易我的世界组件注入器
 
@@ -39,9 +39,16 @@
 ### 📦 快速开始
 
 1. **下载最新版本**：
-```
-Ibuprofen Loader/src-tauri/target/release/ibuprofen_loader.exe
-```
+
+ **最新测试版** : [![最新测试版](https://img.shields.io/github/v/tag/slfftz2011/Ibuprofen-Loader?include_prereleases)](https://github.com/slfftz2011/Ibuprofen-Loader/releases/tag/3.0.0-snapshot-2)
+
+ **最新正式版** : 敬请期待<!--[![最新正式版](https://img.shields.io/github/v/tag/slfftz2011/Ibuprofen-Loader)](https://github.com/slfftz2011/Ibuprofen-Loader/releases/tag/3.0.0-snapshot-2) -->
+
+ **全部版本** :
+
+[![v3.0.0-snapshot-2](https://img.shields.io/badge/download-v3.0.0--snapshot--2-orange)](https://github.com/slfftz2011/Ibuprofen-Loader/releases/tag/3.0.0-snapshot-2)
+[![v3.0.0-snapshot-1](https://img.shields.io/badge/download-v3.0.0--snapshot--1-orange)](https://github.com/slfftz2011/Ibuprofen-Loader/releases/tag/3.0.0-snapshot-1)
+
 
 2. **准备组件**：
 ```
