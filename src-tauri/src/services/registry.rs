@@ -10,10 +10,7 @@ impl RegistryReader {
     pub fn get_netease_download_path() -> Result<String> {
         // Try multiple registry keys that might contain the game path
         let keys_to_try = [
-            (r"SOFTWARE\WOW6432Node\NetEase\McCol", "installPath"),
-            (r"SOFTWARE\NetEase\McCol", "installPath"),
-            (r"SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\McCol", "InstallLocation"),
-            (r"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\McCol", "InstallLocation"),
+            (r"Software\Netease\MCLauncher", "DownloadPath")
         ];
 
         for (key_path, value_name) in &keys_to_try {
@@ -29,8 +26,7 @@ impl RegistryReader {
 
         // Also try HKEY_LOCAL_MACHINE
         let hklm_keys = [
-            (r"SOFTWARE\WOW6432Node\NetEase\McCol", "installPath"),
-            (r"SOFTWARE\NetEase\McCol", "installPath"),
+            (r"Software\Netease\MCLauncher", "DownloadPath")
         ];
 
         for (key_path, value_name) in &hklm_keys {
